@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Copyright © 2020 Thomas Harr. All rights reserved.
+# Use of this source code is governed by MIT license
+# that can be found in the LICENSE file.
+#
+
+echo "Start tmux session '$SESSION_NAME'"
+tmux new-session -d -s "$SESSION_NAME" -n bash '/bin/bash && tmux kill-session'
+
+export APP
+APP="$(pwd)"
+
+for FILE in $(grep -rl '^#!/bin/bash' /etc/entrypoint.d | sort)
+do
+    echo "Source file $FILE"
+    source ${FILE}
+done
+
+echo "Attach to session '$SESSION_NAME'"
+tmux -2 attach-session -t "$SESSION_NAME"\; select-window -t 0 \;

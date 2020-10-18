@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Copyright © 2020 Thomas Harr. All rights reserved.
+# Use of this source code is governed by MIT license
+# that can be found in the LICENSE file.
+#
+
+tmux new-window -t "$SESSION_NAME:1" -n "server" \
+    watchexec -e go -r -s SIGKILL go run .
